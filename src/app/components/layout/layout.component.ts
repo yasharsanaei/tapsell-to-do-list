@@ -42,5 +42,5 @@ export class LayoutComponent {
 
   #listService = inject(ListService);
 
-  lists = this.#listService.tasks;
+  lists = this.#listService.lists;
 }

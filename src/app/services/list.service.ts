@@ -9,7 +9,7 @@ import { ApiService } from './base/api.service';
 export class ListService {
   #apiService = inject(ApiService);
 
-  tasks = ReactiveState.create<ListDto[]>({
+  lists = ReactiveState.create<ListDto[]>({
     defaultValue: [],
     mutate: () => this.#apiService.lists().get(),
   });
@@ -20,7 +20,7 @@ export class ListService {
   });
 
   constructor() {
-    this.tasks.update();
+    this.lists.update();
     this.mainList.update();
   }
 }
