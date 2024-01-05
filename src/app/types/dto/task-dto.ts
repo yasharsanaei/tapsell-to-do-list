@@ -4,5 +4,5 @@ export interface TaskDto {
   done: boolean;
   date: Date;
   list: string;
-  id?: string;
+  _id: string;
 }

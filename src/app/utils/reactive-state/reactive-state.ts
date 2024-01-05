@@ -97,7 +97,7 @@ export class ReactiveState<T> {
   }
 
   update = (
-    v: ((value: T | undefined) => FetcherFunction<T>) | T | undefined,
+    v?: ((value: T | undefined) => FetcherFunction<T>) | T | undefined,
   ) => {
     if (!v && this.#mutateFn) this.#setDataWithMutateFn(this.#mutateFn);
     else if (v && isCallback(v))
