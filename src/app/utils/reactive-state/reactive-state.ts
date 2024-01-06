@@ -3,14 +3,15 @@ import { isObservable, Observable } from 'rxjs';
 import { isPromise } from 'rxjs/internal/util/isPromise';
 import { toObservable } from '@angular/core/rxjs-interop';
 
-type FetcherFunction<T> = (data: T) => Observable<T> | Promise<T> | T;
+type FetcherFunction<T> = (data: any) => Observable<T> | Promise<T> | T;
+type UpdateFunction<T> = (data: T) => Observable<T> | Promise<T> | T;
 
 type ReactiveStateInit<T> = {
   defaultValue: T;
   isFetching?: boolean;
   isSuccess?: boolean;
   isError?: boolean;
-  mutate?: FetcherFunction<T>;
+  update?: FetcherFunction<T>;
 };
 
 export class ReactiveState<T> {
@@ -30,7 +31,7 @@ export class ReactiveState<T> {
     return this.#data.asReadonly();
   }
 
-  readonly #mutateFn?: FetcherFunction<T>;
+  readonly #updateFn?: FetcherFunction<T>;
 
   readonly #data: WritableSignal<T>;
   readonly #isFetching: WritableSignal<boolean>;
@@ -47,9 +48,9 @@ export class ReactiveState<T> {
     isFetching,
     isSuccess,
     isError,
-    mutate,
+    update,
   }: ReactiveStateInit<T>) {
-    this.#mutateFn = mutate;
+    this.#updateFn = update;
     this.#data = signal(defaultValue);
     this.#isFetching = signal(isFetching || false);
     this.#isSuccess = signal(isSuccess || false);
@@ -74,41 +75,46 @@ export class ReactiveState<T> {
     console.error('Error on updating ReactiveState: ', e);
   }
 
-  #setDataWithMutateFn(mutateFn: FetcherFunction<T>) {
+  #setDataWithMutateFn(mutateFn: FetcherFunction<T>, args: any) {
     this.#isFetching.set(true);
     this.#isSuccess.set(false);
     this.#isError.set(false);
-    if (isObservable(mutateFn(this.#data()))) {
-      (mutateFn(this.#data()) as Observable<T>).subscribe({
+    if (isObservable(mutateFn(args))) {
+      (mutateFn(args) as Observable<T>).subscribe({
         next: (v) => this.#onSuccess(v),
         error: (e) => this.#onError(e),
       });
-    } else if (isPromise(mutateFn(this.#data()))) {
-      (mutateFn(this.#data()) as Promise<T>)
+    } else if (isPromise(mutateFn(args))) {
+      (mutateFn(args) as Promise<T>)
         .then((v) => this.#onSuccess(v))
         .catch((e) => this.#onError(e));
     } else {
       try {
-        this.#onSuccess(mutateFn(this.#data()) as T);
+        this.#onSuccess(mutateFn(args) as T);
       } catch (e) {
         this.#onError(e);
       }
     }
   }
 
-  update = (
-    v?: ((value: T | undefined) => FetcherFunction<T>) | T | undefined,
-  ) => {
-    if (!v && this.#mutateFn) this.#setDataWithMutateFn(this.#mutateFn);
-    else if (v && isCallback(v))
-      this.#setDataWithMutateFn(
-        (v as (value: T | undefined) => FetcherFunction<T>)(this.data()),
-      );
-    else if (v && !isCallback(v)) this.#onSuccess(v as T);
+  update = (args?: any) => {
+    if (this.#updateFn) this.#setDataWithMutateFn(this.#updateFn, args);
     else
       console.error(
-        `'update' method neither return a callback or a value. Are you sure you assigned a 'mutateFn'? or you just wanted to return a value to assign it to the state's data?`,
+        `'update' method neither return a callback or a value, Are you sure you assigned a 'updateFn'? If you want to return a value to assign it to the state's data use 'set'`,
       );
+  };
+
+  set = (value: UpdateFunction<T> | T) => {
+    if (isCallback(value)) {
+      this.#setDataWithMutateFn(value as UpdateFunction<T>, this.#data());
+    } else {
+      try {
+        this.#onSuccess(value as T);
+      } catch (e) {
+        this.#onError(e);
+      }
+    }
   };
 
   static create<T>(initialData: ReactiveStateInit<T>) {

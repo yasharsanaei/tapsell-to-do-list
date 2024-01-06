@@ -37,8 +37,9 @@ export class ApiService {
   tasksQuery() {
     const url = this.#wrapUrl('tasks/query');
     return {
-      getByListId: (id: string) =>
-        this.#coreService.getByIdBody<TaskDto>({ url, id }),
+      getByListId: (id: string) => {
+        return this.#coreService.getByIdBody<TaskDto[]>({ url, id });
+      },
     };
   }
 

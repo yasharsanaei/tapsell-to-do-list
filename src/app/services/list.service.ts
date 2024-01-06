@@ -11,12 +11,12 @@ export class ListService {
 
   lists = ReactiveState.create<ListDto[]>({
     defaultValue: [],
-    mutate: () => this.#apiService.lists().get(),
+    update: () => this.#apiService.lists().get(),
   });
 
   mainList = ReactiveState.create<ListDto | undefined>({
     defaultValue: undefined,
-    mutate: () => this.#apiService.mainList().get(),
+    update: () => this.#apiService.mainList().get(),
   });
 
   constructor() {
