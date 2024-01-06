@@ -3,10 +3,10 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 
 @Component({
-  selector: 'app-work-card',
+  selector: 'app-task-card',
   standalone: true,
   imports: [MatCardModule, MatButtonModule],
-  templateUrl: './work-card.component.html',
-  styleUrl: './work-card.component.css',
+  templateUrl: './task-card.component.html',
+  styleUrl: './task-card.component.css',
 })
-export class WorkCardComponent {}
+export class TaskCardComponent {}
