@@ -69,10 +69,6 @@ export class EditListComponent implements OnDestroy {
     this.#onDestroy.complete();
   }
 
-  closeDialog() {
-    this.#dialogRef.close();
-  }
-
   submitForm() {
     if (this.form.invalid) return;
     this.list

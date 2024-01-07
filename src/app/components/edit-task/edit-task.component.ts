@@ -1,7 +1,8 @@
 import { Component, inject, Inject, OnDestroy } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions, MatDialogClose,
+  MatDialogActions,
+  MatDialogClose,
   MatDialogContent,
 } from '@angular/material/dialog';
 import { TaskDto } from '../../types/dto/task-dto';
@@ -18,6 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ApiService } from '../../services/base/api.service';
 import { ListService } from '../../services/list.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -38,6 +40,7 @@ export class EditTaskComponent implements OnDestroy {
   #dialogRef = inject(DialogRef);
   #apiService = inject(ApiService);
   #listService = inject(ListService);
+  #taskService = inject(TaskService);
 
   task = ReactiveState.create<Partial<TaskDto>>({
     defaultValue: {},
@@ -99,12 +102,7 @@ export class EditTaskComponent implements OnDestroy {
     }
   }
 
-  closeDialog() {
-    this.#dialogRef.close();
-  }
-
   submitForm() {
-    debugger;
     if (this.form.invalid) return;
     const body = {
       title: this.form.controls['title'].value,
@@ -114,6 +112,11 @@ export class EditTaskComponent implements OnDestroy {
       list: this.form.controls['list'].value,
       _id: this.form.controls['_id'].value,
     } satisfies TaskDto;
-    this.task.update(body);
+    this.task.update(body).subscribe({
+      next: () => {
+        this.#dialogRef.close();
+        this.#taskService.tasks.update(this.initialData.listId);
+      },
+    });
   }
 }
