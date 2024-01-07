@@ -16,6 +16,7 @@ html, body {
 body {
   margin: var(--space-0);
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  position: relative;
 }
 
 mat-form-field {
@@ -30,4 +31,10 @@ mat-form-field {
 
 .header-actions {
   display: table-cell;
+}
+
+.add-task-button {
+  position: fixed !important;
+  bottom: var(--space-2);
+  right: var(--space-2);
 }

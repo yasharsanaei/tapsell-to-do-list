@@ -10,6 +10,8 @@ import { EditListComponent } from '../edit-list/edit-list.component';
 import { ApiService } from '../../services/base/api.service';
 import { DeleteConfirmationDirective } from '../../utils/directives/delete-confirmation.directive';
 import { TaskListComponent } from '../task-list/task-list.component';
+import {MatIconModule} from "@angular/material/icon";
+import {AddTaskComponent} from "../add-task/add-task.component";
 
 @Component({
   selector: 'app-view-list',
@@ -19,6 +21,8 @@ import { TaskListComponent } from '../task-list/task-list.component';
     MatButtonModule,
     DeleteConfirmationDirective,
     TaskListComponent,
+    MatIconModule,
+    AddTaskComponent,
   ],
   templateUrl: './view-list.component.html',
   styleUrl: './view-list.component.css',
