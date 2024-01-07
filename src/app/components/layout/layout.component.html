@@ -12,7 +12,7 @@
           <a mat-list-item [routerLink]="item._id">{{ item.title }}</a>
         }
       }
-      <a mat-list-item role="button" [matTooltip]="'Add new list'">
+      <a mat-list-item role="button" [matTooltip]="'Add new list'" (click)="openDialogue()">
         <mat-icon fontIcon="add"/>
       </a>
     </mat-nav-list>

@@ -58,7 +58,7 @@ export class ApiService {
       getById: (id: string) =>
         this.#coreService.getByIdBody<ListDto>({ url, id }),
       put: (body: ListDto, id: string) =>
-        this.#coreService.patchBody({ url, body, id }),
+        this.#coreService.patchBody<ListDto>({ url, body, id }),
       delete: (id: string) => this.#coreService.deleteById({ url, id }),
     };
   }

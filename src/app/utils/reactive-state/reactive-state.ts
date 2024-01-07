@@ -27,7 +27,7 @@ export class ReactiveState<T> {
     return this.#isFetching.asReadonly();
   }
 
-  get data(): Signal<T | undefined> {
+  get data(): Signal<T> {
     return this.#data.asReadonly();
   }
 
@@ -76,6 +76,7 @@ export class ReactiveState<T> {
   }
 
   #setDataWithMutateFn(mutateFn: FetcherFunction<T>, args: any) {
+    debugger;
     this.#isFetching.set(true);
     this.#isSuccess.set(false);
     this.#isError.set(false);
@@ -98,6 +99,7 @@ export class ReactiveState<T> {
   }
 
   update = (args?: any) => {
+    debugger;
     if (this.#updateFn) this.#setDataWithMutateFn(this.#updateFn, args);
     else
       console.error(

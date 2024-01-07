@@ -1,17 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
+  --space-0: 0;
   --space-1: 1rem;
   --space-2: 2rem;
   --space-3: 3rem;
   --space-4: 4rem;
+  --space-full: 100%;
 }
 
 html, body {
-  height: 100%;
+  height: var(--space-full);
 }
 
 body {
-  margin: 0;
+  margin: var(--space-0);
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-form-field {
+  width: var(--space-full);
 }
