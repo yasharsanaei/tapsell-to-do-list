@@ -16,13 +16,14 @@ export const validateListIdGuard: CanActivateFn = (route, state) => {
         else observer.next(router.createUrlTree(['']));
         observer.complete();
       } else {
-        if (tryCount < 3) {
-          tryCount++;
-          listService.lists.update();
-        } else {
-          observer.next(router.createUrlTree(['']));
-          observer.complete();
-        }
+        if (!listService.lists.isFetching())
+          if (tryCount < 3) {
+            tryCount++;
+            listService.lists.update();
+          } else {
+            observer.next(router.createUrlTree(['']));
+            observer.complete();
+          }
       }
     });
   });
