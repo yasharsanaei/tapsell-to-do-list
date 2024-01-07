@@ -1,10 +1,14 @@
 <mat-card>
   <mat-card-content>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae culpa, doloribus ipsam officiis porro sed
-      similique voluptates? Blanditiis, expedita, optio.</p>
+    <div class="task-header">
+      <h2>{{ task.title }}</h2>
+      <span>{{ task.date }}</span>
+    </div>
+    <p>{{ task.description }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-flat-button color="primary">Click primary</button>
-    <button mat-flat-button color="accent">Click accent</button>
+    <button mat-flat-button color="primary">Done</button>
+    <button mat-flat-button color="accent">Move to Daily Tasks</button>
+    <button mat-flat-button color="warn">Delete</button>
   </mat-card-actions>
 </mat-card>

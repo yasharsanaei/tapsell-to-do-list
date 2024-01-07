@@ -1,11 +1,15 @@
 @if (tasks.isSuccess()) {
-  @for (task of tasks.data();track task._id) {
-    <app-task-card [task]="task"/>
+  @if (tasks.data()?.length) {
+    @for (task of tasks.data();track task._id) {
+      <app-task-card [task]="task"/>
+    }
+  } @else {
+    <p>List is empty...</p>
   }
 } @else if (tasks.isFetching()) {
   <app-loading/>
 } @else if (tasks.isError()) {
-
+  <p>Error occurred :(</p>
 }
 
 
