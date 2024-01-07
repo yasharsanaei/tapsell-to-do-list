@@ -8,6 +8,6 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-flat-button type="submit" color="primary" [disabled]="list.isFetching()">Save</button>
-    <button mat-flat-button type="button" (click)="closeDialog()" [disabled]="list.isFetching()">Close</button>
+    <button mat-flat-button type="button" mat-dialog-close [disabled]="list.isFetching()">Close</button>
   </mat-dialog-actions>
 </form>

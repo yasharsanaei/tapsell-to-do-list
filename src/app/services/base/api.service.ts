@@ -21,15 +21,19 @@ export class ApiService {
         this.#coreService.getBody<TaskDto[]>({
           url,
         }),
-      post: (body: TaskDto) =>
-        this.#coreService.postBody<TaskDto, TaskDto>({
+      post: (body: Partial<TaskDto>) =>
+        this.#coreService.postBody<TaskDto, Partial<TaskDto>>({
           url,
           body,
         }),
       getById: (id: string) =>
         this.#coreService.getByIdBody<TaskDto>({ url, id }),
-      put: (body: TaskDto, id: string) =>
-        this.#coreService.patchBody({ url, body, id }),
+      put: (body: Partial<TaskDto>, id: string) =>
+        this.#coreService.patchBody<TaskDto, Partial<TaskDto>>({
+          url,
+          body,
+          id,
+        }),
       delete: (id: string) => this.#coreService.deleteById({ url, id }),
     };
   }
