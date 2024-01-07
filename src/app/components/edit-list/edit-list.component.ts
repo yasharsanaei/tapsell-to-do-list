@@ -13,6 +13,7 @@ import {
 import { ReactiveState } from '../../utils/reactive-state/reactive-state';
 import { ApiService } from '../../services/base/api.service';
 import { Subject, takeUntil } from 'rxjs';
+import {ListService} from "../../services/list.service";
 
 @Component({
   selector: 'app-edit-list',
@@ -31,6 +32,7 @@ export class EditListComponent implements OnDestroy {
   #onDestroy = new Subject<void>();
   #dialogRef = inject(DialogRef);
   #apiService = inject(ApiService);
+  #listService = inject(ListService);
 
   list = ReactiveState.create<Partial<ListDto>>({
     defaultValue: {},
@@ -70,7 +72,12 @@ export class EditListComponent implements OnDestroy {
 
   submitForm() {
     if (this.form.invalid) return;
-    this.list.update({ title: this.form.controls['title'].value });
+    this.list.update({ title: this.form.controls['title'].value }).subscribe({
+      next: () => {
+        this.#dialogRef.close();
+        this.#listService.lists.update();
+      },
+    });
   }
 
   #saveOrUpdateList(list: Partial<ListDto>) {
