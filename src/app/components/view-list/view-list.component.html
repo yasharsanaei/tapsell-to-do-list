@@ -2,7 +2,7 @@
   <h2>{{ currentList()?.title }}</h2>
   <div class="header-actions">
     <button mat-flat-button (click)="editList()">Edit</button>
-    <button mat-flat-button color="warn" (click)="deleteList()">Delete</button>
+    <button mat-flat-button color="warn" appDeleteConfirmation (confirmed)="deleteList()">Delete</button>
   </div>
 </div>
 <mat-divider/>

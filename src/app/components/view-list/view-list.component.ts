@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TaskService } from '../../services/task.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { ListDto } from '../../types/dto/list-dto';
 import { ListService } from '../../services/list.service';
@@ -8,16 +8,25 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { EditListComponent } from '../edit-list/edit-list.component';
+import { ApiService } from '../../services/base/api.service';
+import { DeleteConfirmationDirective } from '../../utils/directives/delete-confirmation.directive';
 
 @Component({
   selector: 'app-view-list',
   standalone: true,
-  imports: [JsonPipe, MatListModule, MatButtonModule],
+  imports: [
+    JsonPipe,
+    MatListModule,
+    MatButtonModule,
+    DeleteConfirmationDirective,
+  ],
   templateUrl: './view-list.component.html',
   styleUrl: './view-list.component.css',
 })
 export class ViewListComponent implements OnInit {
   #activatedRoute = inject(ActivatedRoute);
+  #router = inject(Router);
+  #apiService = inject(ApiService);
   #taskService = inject(TaskService);
   #listService = inject(ListService);
   #matDialog = inject(MatDialog);
@@ -37,7 +46,17 @@ export class ViewListComponent implements OnInit {
   }
 
   deleteList() {
-    //   TODO: delete list
+    const id = this.currentList()?._id;
+    if (id)
+      this.#apiService
+        .lists()
+        .delete(id)
+        .subscribe({
+          next: () => {
+            this.#listService.lists.update();
+            this.#router.navigate(['']);
+          },
+        });
   }
 
   editList() {
