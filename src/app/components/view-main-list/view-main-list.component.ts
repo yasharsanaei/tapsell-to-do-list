@@ -5,6 +5,7 @@ import { JsonPipe } from '@angular/common';
 import {MatDividerModule} from "@angular/material/divider";
 import {DeleteConfirmationDirective} from "../../utils/directives/delete-confirmation.directive";
 import {MatButtonModule} from "@angular/material/button";
+import {LoadingComponent} from "../loading/loading.component";
 
 @Component({
   selector: 'app-view-main-list',
@@ -14,6 +15,7 @@ import {MatButtonModule} from "@angular/material/button";
     MatDividerModule,
     DeleteConfirmationDirective,
     MatButtonModule,
+    LoadingComponent,
   ],
   templateUrl: './view-main-list.component.html',
   styleUrl: './view-main-list.component.css',

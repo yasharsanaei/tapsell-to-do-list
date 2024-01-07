@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditListComponent } from '../edit-list/edit-list.component';
 import { ApiService } from '../../services/base/api.service';
 import { DeleteConfirmationDirective } from '../../utils/directives/delete-confirmation.directive';
+import {LoadingComponent} from "../loading/loading.component";
 
 @Component({
   selector: 'app-view-list',
@@ -19,6 +20,7 @@ import { DeleteConfirmationDirective } from '../../utils/directives/delete-confi
     MatListModule,
     MatButtonModule,
     DeleteConfirmationDirective,
+    LoadingComponent,
   ],
   templateUrl: './view-list.component.html',
   styleUrl: './view-list.component.css',

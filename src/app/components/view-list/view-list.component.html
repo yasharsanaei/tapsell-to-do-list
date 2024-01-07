@@ -9,5 +9,5 @@
 @if (tasks.isSuccess()) {
   <p>{{ tasks.data() | json }}</p>
 } @else if (tasks.isFetching()) {
-  <p>Loading...</p>
+  <app-loading/>
 }
