@@ -1,6 +1,10 @@
-import { Component, inject, Input, OnDestroy } from '@angular/core';
+import { Component, Inject, inject, OnDestroy } from '@angular/core';
 import { ListDto } from '../../types/dto/list-dto';
-import { MatDialogContent, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { DialogRef } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,7 +17,7 @@ import {
 import { ReactiveState } from '../../utils/reactive-state/reactive-state';
 import { ApiService } from '../../services/base/api.service';
 import { Subject, takeUntil } from 'rxjs';
-import {ListService} from "../../services/list.service";
+import { ListService } from '../../services/list.service';
 
 @Component({
   selector: 'app-edit-list',
@@ -40,18 +44,17 @@ export class EditListComponent implements OnDestroy {
   });
   form: FormGroup;
 
-  @Input()
-  set initialData(list: ListDto) {
-    if (list) {
-      this.list.set(list);
-    }
-  }
-
-  constructor() {
+  constructor(@Inject(MAT_DIALOG_DATA) public initialData: ListDto) {
+    if (this.initialData) this.list.set(this.initialData);
     this.form = new FormGroup({
-      title: new FormControl({ value: '', disabled: false }, [
-        Validators.required,
-      ]),
+      title: new FormControl(
+        { value: this.list.data()?.title || '', disabled: false },
+        [Validators.required],
+      ),
+      _id: new FormControl({
+        value: this.list.data()?._id || '',
+        disabled: false,
+      }),
     });
     this.list.isFetching$
       .pipe(takeUntil(this.#onDestroy))
@@ -72,12 +75,17 @@ export class EditListComponent implements OnDestroy {
 
   submitForm() {
     if (this.form.invalid) return;
-    this.list.update({ title: this.form.controls['title'].value }).subscribe({
-      next: () => {
-        this.#dialogRef.close();
-        this.#listService.lists.update();
-      },
-    });
+    this.list
+      .update({
+        title: this.form.controls['title'].value,
+        _id: this.form.controls['_id'].value,
+      })
+      .subscribe({
+        next: () => {
+          this.#dialogRef.close();
+          this.#listService.lists.update();
+        },
+      });
   }
 
   #saveOrUpdateList(list: Partial<ListDto>) {

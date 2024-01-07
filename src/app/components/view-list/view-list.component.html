@@ -1,5 +1,11 @@
-<p>view-list works!</p>
-<hr>
+<div class="header-row">
+  <h2>{{ currentList()?.title }}</h2>
+  <div class="header-actions">
+    <button mat-flat-button (click)="editList()">Edit</button>
+    <button mat-flat-button color="warn" (click)="deleteList()">Delete</button>
+  </div>
+</div>
+<mat-divider/>
 @if (tasks.isSuccess()) {
   <p>{{ tasks.data() | json }}</p>
 } @else if (tasks.isFetching()) {
