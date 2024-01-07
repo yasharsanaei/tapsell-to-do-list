@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
 import { ListDto } from '../../types/dto/list-dto';
 import { ListService } from '../../services/list.service';
 import { MatListModule } from '@angular/material/list';
@@ -10,17 +9,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditListComponent } from '../edit-list/edit-list.component';
 import { ApiService } from '../../services/base/api.service';
 import { DeleteConfirmationDirective } from '../../utils/directives/delete-confirmation.directive';
-import {LoadingComponent} from "../loading/loading.component";
+import { TaskListComponent } from '../task-list/task-list.component';
 
 @Component({
   selector: 'app-view-list',
   standalone: true,
   imports: [
-    JsonPipe,
     MatListModule,
     MatButtonModule,
     DeleteConfirmationDirective,
-    LoadingComponent,
+    TaskListComponent,
   ],
   templateUrl: './view-list.component.html',
   styleUrl: './view-list.component.css',
@@ -43,6 +41,8 @@ export class ViewListComponent implements OnInit {
         this.currentList.set(
           this.#listService.lists.data().find((d) => d._id == value.get('id')),
         );
+      } else {
+        this.#router.navigate(['']);
       }
     });
   }

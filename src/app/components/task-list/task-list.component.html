@@ -1,1 +1,11 @@
-<p>task-list works!</p>
+@if (tasks.isSuccess()) {
+  @for (task of tasks.data();track task._id) {
+    <app-task-card [task]="task"/>
+  }
+} @else if (tasks.isFetching()) {
+  <app-loading/>
+} @else if (tasks.isError()) {
+
+}
+
+
