@@ -1,5 +1,7 @@
-<p>view-main-list works!</p>
-<hr>
+<div class="header-row">
+  <h2>{{ mainList.data()?.title }}</h2>
+</div>
+<mat-divider [style.margin-bottom]="'1rem'"/>
 @if (tasks.isSuccess()) {
   <p>{{ tasks.data() | json }}</p>
 } @else if (tasks.isFetching()) {

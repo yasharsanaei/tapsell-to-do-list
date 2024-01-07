@@ -21,3 +21,13 @@ body {
 mat-form-field {
   width: var(--space-full);
 }
+
+.header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header-actions {
+  display: table-cell;
+}

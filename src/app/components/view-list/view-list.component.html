@@ -5,7 +5,7 @@
     <button mat-flat-button color="warn" appDeleteConfirmation (confirmed)="deleteList()">Delete</button>
   </div>
 </div>
-<mat-divider/>
+<mat-divider [style.margin-bottom]="'1rem'"/>
 @if (tasks.isSuccess()) {
   <p>{{ tasks.data() | json }}</p>
 } @else if (tasks.isFetching()) {
