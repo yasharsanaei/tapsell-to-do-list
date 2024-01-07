@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <mat-dialog-content>
+    <h2>{{ task.data()._id ? 'Edit Task' : 'Create New Task' }}</h2>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <input matInput type="text" formControlName="description">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button type="submit" color="primary" [disabled]="task.isFetching()">Save</button>
+    <button mat-flat-button type="button" mat-dialog-close [disabled]="task.isFetching()">Close</button>
+  </mat-dialog-actions>
+</form>
