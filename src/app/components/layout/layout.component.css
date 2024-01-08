@@ -19,3 +19,7 @@
 main {
   padding: var(--space-2);
 }
+
+mat-divider {
+  margin: var(--space-1) 0;
+}
