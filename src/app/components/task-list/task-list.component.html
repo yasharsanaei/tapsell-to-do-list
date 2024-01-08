@@ -1,13 +1,15 @@
-@if (tasks.isSuccess()) {
-  @if (tasks.data()?.length) {
-    @for (task of tasks.data();track task._id) {
-      <app-task-card [isDoneView]="isDoneView" [task]="task" (cardUpdated)="onUpdateList()"/>
+<div class="task-list-wrapper">
+  @if (tasks.isSuccess()) {
+    @if (tasks.data()?.length) {
+      @for (task of tasks.data();track task._id) {
+        <app-task-card [isDoneView]="isDoneView" [task]="task" (cardUpdated)="onUpdateList()"/>
+      }
+    } @else {
+      <p>List is empty...</p>
     }
-  } @else {
-    <p>List is empty...</p>
+  } @else if (tasks.isFetching()) {
+    <app-loading/>
+  } @else if (tasks.isError()) {
+    <p>Error occurred :(</p>
   }
-} @else if (tasks.isFetching()) {
-  <app-loading/>
-} @else if (tasks.isError()) {
-  <p>Error occurred :(</p>
-}
+</div>
