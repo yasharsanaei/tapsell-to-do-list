@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { EditTaskComponent } from '../edit-task/edit-task.component';
 
 @Component({
   selector: 'app-add-task',
@@ -17,6 +18,14 @@ export class AddTaskComponent {
   listId!: string;
 
   openDialog() {
-    //TODO:   Open dialog to create task
+    this.#matDialog.open(EditTaskComponent, {
+      data: {
+        listId: this.listId,
+        task: undefined,
+      },
+      minWidth: '300px',
+      width: '100%',
+      maxWidth: '800px',
+    });
   }
 }

@@ -20,6 +20,8 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { ApiService } from '../../services/base/api.service';
 import { ListService } from '../../services/list.service';
 import { TaskService } from '../../services/task.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-edit-task',
@@ -31,6 +33,8 @@ import { TaskService } from '../../services/task.service';
     MatInputModule,
     MatDialogActions,
     MatDialogClose,
+    MatCheckboxModule,
+    MatDatepickerModule,
   ],
   templateUrl: './edit-task.component.html',
   styleUrl: './edit-task.component.css',
@@ -65,7 +69,7 @@ export class EditTaskComponent implements OnDestroy {
         disabled: false,
       }),
       done: new FormControl({
-        value: this.initialData?.task?.done || '',
+        value: this.initialData?.task?.done || false,
         disabled: false,
       }),
       date: new FormControl({
@@ -73,7 +77,7 @@ export class EditTaskComponent implements OnDestroy {
         disabled: false,
       }),
       list: new FormControl({
-        value: this.initialData?.task?.list || '',
+        value: this.initialData?.task?.list || this.initialData.listId || '',
         disabled: false,
       }),
       _id: new FormControl({
@@ -95,10 +99,11 @@ export class EditTaskComponent implements OnDestroy {
   }
 
   #saveOrUpdateTask(task: Partial<TaskDto>) {
-    if (this.initialData.task._id) {
+    if (this.initialData?.task?._id) {
       return this.#apiService.tasks().put(task, this.initialData.task._id);
     } else {
-      return this.#apiService.tasks().post(task);
+      const { _id, ...rest } = task;
+      return this.#apiService.tasks().post(rest);
     }
   }
 
