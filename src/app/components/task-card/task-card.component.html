@@ -1,19 +1,43 @@
-<mat-card>
+<mat-card [class.done]="task.done">
   <mat-card-content>
     <div class="task-header">
-      <h2>{{ task.title }}</h2>
-      <span>{{ task.date }}</span>
+      <h2>
+        @if (task.done) {
+          <mat-icon color="primary" fontIcon="task_alt"/>
+        }
+        <span>{{ task.title }}</span>
+      </h2>
+      <span>{{ task.date | date }}</span>
     </div>
     <p>{{ task.description }}</p>
   </mat-card-content>
   <mat-card-actions [align]="'end'">
-    <button mat-icon-button color="primary" matTooltip="Set task as Done">
-      <mat-icon fontIcon="done"/>
+    <button mat-icon-button
+            color="primary"
+            [matTooltip]="task.done ? 'Set task as Not done' : 'Set task as Done'"
+            [disabled]="isLoading()"
+            (click)="toggleDoneTask()">
+      <mat-icon [fontIcon]="task.done ? 'close' : 'done'"/>
     </button>
-    <button mat-icon-button color="accent" matTooltip="Move task to 'Daily Tasks'">
+    <button mat-icon-button
+            matTooltip="Edit task"
+            [disabled]="isLoading()"
+            (click)="editTask()">
+      <mat-icon fontIcon="edit"/>
+    </button>
+    <button mat-icon-button
+            color="accent"
+            matTooltip="Move task to 'Daily Tasks'"
+            [disabled]="isLoading()"
+            (click)="moveToDaily()">
       <mat-icon fontIcon="today"/>
     </button>
-    <button mat-icon-button color="warn" matTooltip="Delete task">
+    <button mat-icon-button
+            color="warn"
+            matTooltip="Delete task"
+            appDeleteConfirmation
+            (confirmed)="deleteTask()"
+            [disabled]="isLoading()">
       <mat-icon fontIcon="delete"/>
     </button>
   </mat-card-actions>

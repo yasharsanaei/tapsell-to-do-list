@@ -18,10 +18,9 @@ import { MatInputModule } from '@angular/material/input';
 import { Subject, takeUntil } from 'rxjs';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ApiService } from '../../services/base/api.service';
-import { ListService } from '../../services/list.service';
 import { TaskService } from '../../services/task.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatDatepickerModule} from "@angular/material/datepicker";
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-edit-task',
@@ -43,7 +42,6 @@ export class EditTaskComponent implements OnDestroy {
   #onDestroy = new Subject<void>();
   #dialogRef = inject(DialogRef);
   #apiService = inject(ApiService);
-  #listService = inject(ListService);
   #taskService = inject(TaskService);
 
   task = ReactiveState.create<Partial<TaskDto>>({

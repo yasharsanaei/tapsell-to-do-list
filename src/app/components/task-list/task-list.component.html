@@ -1,7 +1,7 @@
 @if (tasks.isSuccess()) {
   @if (tasks.data()?.length) {
     @for (task of tasks.data();track task._id) {
-      <app-task-card [task]="task"/>
+      <app-task-card [task]="task" (updateList)="onUpdateList()"/>
     }
   } @else {
     <p>List is empty...</p>
