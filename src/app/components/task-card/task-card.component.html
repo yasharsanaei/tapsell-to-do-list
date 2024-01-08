@@ -6,9 +6,15 @@
     </div>
     <p>{{ task.description }}</p>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-flat-button color="primary">Done</button>
-    <button mat-flat-button color="accent">Move to Daily Tasks</button>
-    <button mat-flat-button color="warn">Delete</button>
+  <mat-card-actions [align]="'end'">
+    <button mat-icon-button color="primary" matTooltip="Set task as Done">
+      <mat-icon fontIcon="done"/>
+    </button>
+    <button mat-icon-button color="accent" matTooltip="Move task to 'Daily Tasks'">
+      <mat-icon fontIcon="today"/>
+    </button>
+    <button mat-icon-button color="warn" matTooltip="Delete task">
+      <mat-icon fontIcon="delete"/>
+    </button>
   </mat-card-actions>
 </mat-card>
