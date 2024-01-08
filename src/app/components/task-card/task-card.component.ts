@@ -3,6 +3,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnInit,
   Output,
   signal,
 } from '@angular/core';
@@ -32,18 +33,25 @@ import { ListService } from '../../services/list.service';
   templateUrl: './task-card.component.html',
   styleUrl: './task-card.component.css',
 })
-export class TaskCardComponent {
+export class TaskCardComponent implements OnInit {
   #matDialog = inject(MatDialog);
   #apiService = inject(ApiService);
   #listService = inject(ListService);
 
   isLoading = signal<boolean>(false);
+  isDaily = signal<boolean>(false);
 
   @Input({ required: true })
   task!: TaskDto;
 
   @Output()
   updateList: EventEmitter<void> = new EventEmitter<void>();
+
+  ngOnInit(): void {
+    if (this.task.list === this.#listService.mainList.data()?._id) {
+      this.isDaily.set(true);
+    }
+  }
 
   editTask() {
     this.#matDialog.open(EditTaskComponent, {

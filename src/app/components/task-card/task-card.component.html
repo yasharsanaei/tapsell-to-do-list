@@ -1,4 +1,4 @@
-<mat-card [class.done]="task.done">
+<mat-card [class.done]="task.done" [appearance]="task.done ? 'outlined' : 'raised'">
   <mat-card-content>
     <div class="task-header">
       <h2>
@@ -19,18 +19,20 @@
             (click)="toggleDoneTask()">
       <mat-icon [fontIcon]="task.done ? 'close' : 'done'"/>
     </button>
+    @if (!isDaily()) {
+      <button mat-icon-button
+              color="accent"
+              matTooltip="Move task to 'Daily Tasks'"
+              [disabled]="isLoading()"
+              (click)="moveToDaily()">
+        <mat-icon fontIcon="today"/>
+      </button>
+    }
     <button mat-icon-button
             matTooltip="Edit task"
             [disabled]="isLoading()"
             (click)="editTask()">
       <mat-icon fontIcon="edit"/>
-    </button>
-    <button mat-icon-button
-            color="accent"
-            matTooltip="Move task to 'Daily Tasks'"
-            [disabled]="isLoading()"
-            (click)="moveToDaily()">
-      <mat-icon fontIcon="today"/>
     </button>
     <button mat-icon-button
             color="warn"
