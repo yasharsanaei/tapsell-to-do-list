@@ -12,6 +12,7 @@
           <a mat-list-item [routerLink]="item._id">{{ item.title }}</a>
         }
       }
+      <a mat-list-item [routerLink]="['done-tasks']">Done Tasks</a>
       <a mat-list-item role="button" [matTooltip]="'Add new list'" (click)="openDialogue()">
         <mat-icon fontIcon="add"/>
       </a>

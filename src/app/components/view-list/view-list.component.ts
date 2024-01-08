@@ -10,8 +10,8 @@ import { EditListComponent } from '../edit-list/edit-list.component';
 import { ApiService } from '../../services/base/api.service';
 import { DeleteConfirmationDirective } from '../../utils/directives/delete-confirmation.directive';
 import { TaskListComponent } from '../task-list/task-list.component';
-import {MatIconModule} from "@angular/material/icon";
-import {AddTaskComponent} from "../add-task/add-task.component";
+import { MatIconModule } from '@angular/material/icon';
+import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
   selector: 'app-view-list',
@@ -70,5 +70,9 @@ export class ViewListComponent implements OnInit {
       data: this.currentList(),
       width: '300px',
     });
+  }
+
+  listUpdate() {
+    this.tasks.update(this.currentList()?._id);
   }
 }

@@ -115,7 +115,6 @@ export class EditTaskComponent implements OnDestroy {
       list: this.form.controls['list'].value,
       _id: this.form.controls['_id'].value,
     } satisfies TaskDto;
-    debugger;
     this.task.update(body).subscribe({
       next: () => {
         this.#dialogRef.close();

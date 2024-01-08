@@ -7,6 +7,6 @@
 </div>
 <mat-divider [style.margin-bottom]="'1rem'"/>
 @if (currentList()?._id) {
-  <app-task-list [listId]="currentList()?._id!" [tasks]="tasks"/>
+  <app-task-list (listUpdate)="listUpdate()" [tasks]="tasks"/>
   <app-add-task [listId]="currentList()?._id!"/>
 }

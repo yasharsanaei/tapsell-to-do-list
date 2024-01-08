@@ -68,7 +68,7 @@ export class ApiService {
   }
 
   completed() {
-    const url = this.#wrapUrl('completed');
+    const url = this.#wrapUrl('compeleted');
     return {
       get: () => this.#coreService.getBody<TaskDto[]>({ url }),
     };

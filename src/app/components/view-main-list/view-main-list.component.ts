@@ -24,4 +24,8 @@ export class ViewMainListComponent implements OnInit {
       value?._id && this.tasks.update(value?._id);
     });
   }
+
+  listUpdate() {
+    this.tasks.update(this.mainList.data()?._id);
+  }
 }

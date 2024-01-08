@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   Component,
   EventEmitter,
   inject,
@@ -41,11 +42,14 @@ export class TaskCardComponent implements OnInit {
   isLoading = signal<boolean>(false);
   isDaily = signal<boolean>(false);
 
+  @Input({ transform: booleanAttribute })
+  isDoneView?: boolean;
+
   @Input({ required: true })
   task!: TaskDto;
 
   @Output()
-  updateList: EventEmitter<void> = new EventEmitter<void>();
+  cardUpdated: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
     if (this.task.list === this.#listService.mainList.data()?._id) {
@@ -72,7 +76,7 @@ export class TaskCardComponent implements OnInit {
       .put({ ...this.task, done: !this.task.done }, this.task._id)
       .subscribe(() => {
         this.isLoading.set(false);
-        this.updateList.next();
+        this.cardUpdated.next();
       });
   }
 
@@ -86,7 +90,7 @@ export class TaskCardComponent implements OnInit {
       )
       .subscribe(() => {
         this.isLoading.set(false);
-        this.updateList.next();
+        this.cardUpdated.next();
       });
   }
 
@@ -97,7 +101,7 @@ export class TaskCardComponent implements OnInit {
       .delete(this.task._id)
       .subscribe(() => {
         this.isLoading.set(false);
-        this.updateList.next();
+        this.cardUpdated.next();
       });
   }
 }
